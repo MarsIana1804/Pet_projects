@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Habit Tracker</title>
+    <style>
+      body {
+        font-family: Arial;
+        text-align: center;
+        background: linear-gradient(to right, #74ebd5, #acb6e5);
+        margin: 0;
+      }
+
+      .columns {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .left,
+      .right {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        width: 50%;
+      }
+
+      .container {
+        background: white;
+        padding: 30px;
+        margin: 50px auto;
+        width: 800px;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      button,
+      .completed {
+        background-color: #d4edda;
+        color: #155724;
+        padding: 10px 20px;
+        margin: 10px 0;
+        font-size: 20px;
+        font-weight: bold;
+        border-radius: 8px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .progress {
+        font-size: 25px;
+        font-weight: bold;
+        margin-top: 20px;
+        background-color: #d0ebff;
+      }
+      h1 {
+        margin-top: 0;
+      }
+
+      button {
+        padding: 10px 20px;
+        margin: 10px 0;
+        font-size: 20px;
+        font-weight: bold;
+        border-radius: 8px;
+        border: none;
+        background-color: #d8b4f8; /* light purple */
+        color: #333;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      button:hover {
+        background-color: #c084fc; /* slightly darker purple */
+      }
+
+      h2 {
+        margin-top: 30px;
+      }
+
+      p {
+        background: #f0f0f0;
+        padding: 8px;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Your Habits</h1>
+
+      <div class="columns">
+        <!-- LEFT: HABITS -->
+        <div class="left">
+          <h2>Habits</h2>
+
+          {% for habit in habits %}
+          <form action="/done" method="post">
+            <input type="hidden" name="habit" value="{{ habit }}" />
+            <button type="submit">{{ habit }}</button>
+          </form>
+          {% endfor %}
+        </div>
+
+        <!-- RIGHT: COMPLETED -->
+        <div class="right">
+          <h2>Completed</h2>
+
+          {% if completed %} {% for item in completed %}
+          <p class="completed">✔ {{ item.split(' - ')[1] }}</p>
+          {% endfor %} {% else %}
+          <p>No habits completed yet</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- BOTTOM SUMMARY -->
+      <p class="progress">
+        {{ completed|length }} / {{ total }} habits completed today
+      </p>
+    </div>
+  </body>
+</html>
